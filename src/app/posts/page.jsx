@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const getPosts = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
   const data = await res.json();
@@ -24,7 +26,12 @@ const PostsPage = async () => {
               <h2 className="card-title">{post.title.slice(0, 40)}...</h2>
               <p>{post.body.slice(0, 80)}...</p>
               <div className="card-actions justify-end">
-                <button className="btn btn-primary rounded">Read More</button>
+                <Link
+                  href={`/posts/${post.id}`}
+                  className="btn btn-primary rounded"
+                >
+                  Read More
+                </Link>
               </div>
             </div>
           </div>
