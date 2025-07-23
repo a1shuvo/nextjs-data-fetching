@@ -1,4 +1,5 @@
 import Link from "next/link";
+import style from "./post.module.css";
 
 const getPosts = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -11,7 +12,9 @@ const PostsPage = async () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-3xl font-bold text-center mb-6">Latest Posts</h2>
+      <h2 className={`text-3xl font-bold text-center mb-6 ${style.postHeader}`}>
+        Latest Posts
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
           <div key={post.id} className="card bg-base-100 shadow-xl">
@@ -23,7 +26,9 @@ const PostsPage = async () => {
               />
             </figure>
             <div className="card-body">
-              <h2 className="card-title">{post.title.slice(0, 40)}...</h2>
+              <h2 className={`card-title ${style["post-title"]}`}>
+                {post.title.slice(0, 40)}...
+              </h2>
               <p>{post.body.slice(0, 80)}...</p>
               <div className="card-actions justify-end">
                 <Link
