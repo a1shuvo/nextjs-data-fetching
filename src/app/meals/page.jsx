@@ -1,3 +1,4 @@
+import Link from "next/link";
 import MealSearchInput from "./components/MealSearchInput";
 
 async function getMeals(query) {
@@ -7,6 +8,11 @@ async function getMeals(query) {
   const data = await res.json();
   return data.meals || [];
 }
+
+export const metadata = {
+  title: "All Meals",
+  description: "Meals loaded from MealsDB API",
+};
 
 export default async function MealsPage({ searchParams }) {
   const { search = "" } = await searchParams;
@@ -31,6 +37,14 @@ export default async function MealsPage({ searchParams }) {
             <div className="card-body">
               <h2 className="card-title">{meal.strMeal}</h2>
               <p className="text-sm text-gray-500">{meal.strCategory}</p>
+              <div className="card-actions justify-end">
+                <Link
+                  href={`/meals/${meal.idMeal}`}
+                  className="btn btn-primary rounded"
+                >
+                  Details
+                </Link>
+              </div>
             </div>
           </div>
         ))}

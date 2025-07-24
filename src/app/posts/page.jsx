@@ -7,6 +7,11 @@ const getPosts = async () => {
   return data.slice(0, 12); // Limit for display
 };
 
+export const metadata = {
+  title: "All Posts",
+  description: "Loading JSON placeholder posts using server component.",
+};
+
 const PostsPage = async () => {
   const posts = await getPosts();
 
