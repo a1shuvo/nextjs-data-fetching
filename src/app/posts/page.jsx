@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import style from "./post.module.css";
 
@@ -24,10 +25,12 @@ const PostsPage = async () => {
         {posts.map((post) => (
           <div key={post.id} className="card bg-base-100 shadow-xl">
             <figure>
-              <img
+              <Image
                 src={`https://picsum.photos/seed/${post.id}/600/400`}
                 alt="Post"
-                className="w-full h-48 object-cover"
+                width={600}
+                height={400}
+                className="w-full h-80 object-cover"
               />
             </figure>
             <div className="card-body">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import MealSearchInput from "./components/MealSearchInput";
 
@@ -28,10 +29,12 @@ export default async function MealsPage({ searchParams }) {
         {meals.map((meal) => (
           <div key={meal.idMeal} className="card bg-base-100 shadow-md">
             <figure>
-              <img
+              <Image
                 src={meal.strMealThumb}
                 alt={meal.strMeal}
-                className="w-full h-48 object-cover"
+                width={640}
+                height={640}
+                className="w-full h-fit object-cover"
               />
             </figure>
             <div className="card-body">
