@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const ProductAddForm = () => {
@@ -12,6 +13,8 @@ const ProductAddForm = () => {
   });
 
   const [message, setMessage] = useState("");
+
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -50,6 +53,7 @@ const ProductAddForm = () => {
           inStock: false,
           tags: "",
         });
+        router.push("/products");
       } else {
         const error = await res.json();
         setMessage("❌ Failed: " + error.message || "Unknown error");
