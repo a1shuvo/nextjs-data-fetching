@@ -1,5 +1,8 @@
+export const dynamic = "force-dynamic";
+
 const ProductsPage = async () => {
-  const res = await fetch("http://localhost:3000/api/items", {
+  console.log(process.env.NEXT_PUBLIC_BASE_URL);
+  const res = await fetch(`/api/items`, {
     cache: "force-cache",
   });
   const data = await res.json();
@@ -9,7 +12,7 @@ const ProductsPage = async () => {
       <h1 className="text-3xl font-bold mb-6 text-center">All Products</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {data.map((product) => (
+        {data?.map((product) => (
           <div
             key={product._id}
             className="card bg-base-100 shadow-xl border border-base-200"
