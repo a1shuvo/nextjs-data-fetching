@@ -1,11 +1,14 @@
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
+
+import { getProducts } from "../actions/products/getProducts";
 
 const ProductsPage = async () => {
-  console.log(process.env.NEXT_PUBLIC_BASE_URL);
-  const res = await fetch(`/api/items`, {
-    cache: "force-cache",
-  });
-  const data = await res.json();
+  // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/items`, {
+  //   cache: "force-cache",
+  // });
+  // const data = await res.json();
+
+  const data = await getProducts();
 
   return (
     <div className="p-4">

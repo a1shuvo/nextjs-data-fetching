@@ -1,5 +1,6 @@
 "use client";
 
+import { postSingleData } from "@/app/actions/products/postSingleProduct";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -36,15 +37,17 @@ const ProductAddForm = () => {
     };
 
     try {
-      const res = await fetch("/api/items", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
-      });
+      // const res = await fetch("/api/items", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(newProduct),
+      // });
 
-      if (res.ok) {
+      const res = await postSingleData(newProduct);
+
+      if (res && res.acknowledged) {
         setMessage("✅ Product added successfully!");
         setFormData({
           name: "",
