@@ -1,3 +1,4 @@
+import dbConnect from "@/lib/dbConnect";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -11,15 +12,18 @@ export const authOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: { label: "Email", type: "email" },
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
         // Add logic here to look up the user from the credentials supplied
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
+        // const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
+        const { username, password } = credentials;
+        const user = await dbConnect("test_user").findOne({ username });
 
-        if (user) {
+        const isPasswordOk = password === user.password;
+
+        if (isPasswordOk) {
           // Any object returned will be saved in `user` property of the JWT
           return user;
         } else {
@@ -31,6 +35,22 @@ export const authOptions = {
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token, user }) {
+      if (token) {
+        session.user.username = token.username;
+        session.user.role = token.role;
+      }
+      return session;
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (user) {
+        token.username = user.username;
+        token.role = user.role;
+      }
+      return token;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
