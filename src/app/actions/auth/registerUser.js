@@ -1,20 +1,24 @@
 "use server";
 
-import dbConnect from "@/lib/dbConnect";
+import dbConnect, { collectionNames } from "@/lib/dbConnect";
 
 export const registerUser = async (payload) => {
   try {
     const { username } = payload;
 
     // 1. Check if the username already exists
-    const existingUser = await dbConnect("test_user").findOne({ username });
+    const existingUser = await dbConnect(collectionNames.TEST_USER).findOne({
+      username,
+    });
 
     if (existingUser) {
       return { success: false, message: "Username already taken" };
     }
 
     // 2. Insert the new user
-    const result = await dbConnect("test_user").insertOne(payload);
+    const result = await dbConnect(collectionNames.TEST_USER).insertOne(
+      payload
+    );
 
     return {
       success: true,

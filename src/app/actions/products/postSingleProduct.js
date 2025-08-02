@@ -1,6 +1,6 @@
 "use server";
 
-import dbConnect from "@/lib/dbConnect";
+import dbConnect, { collectionNames } from "@/lib/dbConnect";
 import { revalidatePath } from "next/cache";
 
 export const postSingleData = async (postedData) => {
@@ -9,9 +9,12 @@ export const postSingleData = async (postedData) => {
       ...postedData,
       createdAt: new Date(),
     };
-    const result = await dbConnect("test").insertOne(newProduct);
+    const result = await dbConnect(collectionNames.TEST).insertOne(newProduct);
     revalidatePath("/products");
-    return result;
+    return {
+      acknowledged: result.acknowledged,
+      insertedId: result.insertedId.toString(), // ✅ Convert ObjectId to string
+    };
   } catch (error) {
     console.log(error);
     return null;
