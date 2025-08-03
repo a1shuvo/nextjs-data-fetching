@@ -1,8 +1,12 @@
-"use client";
-
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { SignInButton, SignOutButton } from "./AuthButtons";
 
-const Navbar = () => {
+export default async function Navbar() {
+  const session = await getServerSession(authOptions);
+  console.log(session);
+
   return (
     <div className="navbar bg-base-100 shadow-md px-4">
       <div className="navbar-start">
@@ -28,17 +32,32 @@ const Navbar = () => {
           <li>
             <Link href="/meals">Meals</Link>
           </li>
-          <li>
-            <Link href="/register">Register</Link>
-          </li>
         </ul>
       </div>
 
       <div className="navbar-end">
-        {/* Optional: Add login/user icon/cart/etc. */}
+        <ul className="menu menu-horizontal px-1 space-x-2">
+          {!session ? (
+            <>
+              <li>
+                <Link href="/register">Register</Link>
+              </li>
+              <li>
+                <SignInButton />
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <span className="px-2">Hi, {session.user.username}</span>
+              </li>
+              <li>
+                <SignOutButton />
+              </li>
+            </>
+          )}
+        </ul>
       </div>
     </div>
   );
-};
-
-export default Navbar;
+}
